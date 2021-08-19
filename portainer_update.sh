@@ -11,7 +11,7 @@ CERT_MODE="default"
 CERT_NAME="<site_name>"
 
 #Update cert for Default
-CERT_UPDATE=false     #True or False
+CERT_UPDATE=true         #True or False
 
 #Change to your company details
 COUNTRY="XX"             #Country Name (2 letter code)

@@ -30,7 +30,7 @@ LETSENCRYPT_CERT_NAME="fullchain.pem"
 LETSENCRYPT_CERT_KEY="privkey.pem"
 
 DEFAULT_CERT_DIR="/etc/docker/certs"
-DEFAULT_CERT_NAME"portainer.crt"
+DEFAULT_CERT_NAME="portainer.crt"
 DEFAULT_CERT_KEY="portainer.key"
 DEFAULT_CERT_DAYS=3650 #The number of days to certify the certificate for. 3650 is ten years. You can use any positive integer.
 DEFAULT_CERT_SIZE=2048 #Creates a new certificate request and 4096 bit RSA key. The default one is 2048 bits.

@@ -4,25 +4,23 @@
 CONTAINER_NAME="portainer_ssl"
 
 #Selected cert mode ('letsencrypt' or 'default' or 'no')
-#CERT_MODE="default"
-CERT_MODE="letsencrypt"
+CERT_MODE="default"
+#CERT_MODE="letsencrypt"
 
 #Edit cert name if selected CERT_MODE='letsencrypt'
 CERT_NAME="<site_name>"
-
 
 #Update cert for Default
 CERT_UPDATE=false     #True or False
 
 #Change to your company details
-COUNTRY="XX"          #Country Name (2 letter code)
-STATE="<state>"       #State or Province Name (full name)
-LOCALCITY="<city>"    #Locality Name (eg, city)
-ORGANIZATION=""       #Organization Name (eg, company)
-ORGANIZATION_UNIT=""  #Organizational Unit Name (eg, section)
-COMMON_NAME="<name>"  #Common Name (e.g. server FQDN or YOUR name)
-EMAIL=""              #Email Address
-
+COUNTRY="XX"             #Country Name (2 letter code)
+STATE=""                 #State or Province Name (full name)
+LOCALCITY=""             #Locality Name (eg, city)
+ORGANIZATION=""          #Organization Name (eg, company)
+ORGANIZATION_UNIT=""     #Organizational Unit Name (eg, section)
+COMMON_NAME="portainer"  #Common Name (e.g. server FQDN or YOUR name)
+EMAIL=""                 #Email Address
 
 #----------------------------
 
@@ -30,6 +28,10 @@ EMAIL=""              #Email Address
 LETSENCRYPT_CERT_DIR="/etc/letsencrypt"
 LETSENCRYPT_CERT_NAME="fullchain.pem"
 LETSENCRYPT_CERT_KEY="privkey.pem"
+
+DEFAULT_CERT_DIR="/etc/docker/certs"
+DEFAULT_CERT_NAME"portainer.crt"
+DEFAULT_CERT_KEY="portainer.key"
 DEFAULT_CERT_DAYS=3650 #The number of days to certify the certificate for. 3650 is ten years. You can use any positive integer.
 DEFAULT_CERT_SIZE=2048 #Creates a new certificate request and 4096 bit RSA key. The default one is 2048 bits.
 

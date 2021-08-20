@@ -1,16 +1,16 @@
 #!/bin/bash
 
-FREEPBX_VERSION="16.0-latest"
-ASTERISK_VERSION="18-current"
-#DAHDI_VERSION=""
-#LibPRI_VERSION=""
-WEB_ROOT=""
+export FREEPBX_VERSION="16.0-latest"
+export ASTERISK_VERSION="18-current"
+#export DAHDI_VERSION="linux-complete-current"
+#export LibPRI_VERSION="current"
+export WEB_ROOT=""
 #
-LINUX_HEADERS="4.19.0-17-all"
+export LINUX_HEADERS="4.19.0-17-all"
 #
-PHP_VERSION="7.4"
-NODEJS_VERSION="16.x"
-MARIADB_CONNECTOR_ODBC="3.1.13"
+export PHP_VERSION="7.4"
+export NODEJS_VERSION="16.x"
+export MARIADB_CONNECTOR_ODBC="3.1.13"
 
 #------------------------------
 
@@ -52,18 +52,18 @@ apt-get install -y nodejs
 #dpkg -i libssl1.0.2_1.0.2u-1_deb9u4_amd64.deb
 #rm -f libssl1.0.2_1.0.2u-1_deb9u4_amd64.deb
 
+apt-get install -y libssl1.1
+
 #wget https://wiki.freepbx.org/download/attachments/122487323/mariadb-connector-odbc_3.0.7-1_amd64.deb
 #dpkg -i mariadb-connector-odbc_3.0.7-1_amd64.deb
 #rm -f mariadb-connector-odbc_3.0.7-1_amd64.deb
 
-apt-get install -y libssl1.1
-
-#https://downloads.mariadb.org/connector-odbc/${MARIADB_CONNECTOR_ODBC}/
-https://downloads.mariadb.com/Connectors/odbc/connector-odbc-${MARIADB_CONNECTOR_ODBC}/mariadb-connector-odbc-${MARIADB_CONNECTOR_ODBC}-src.tar.gz
-tar xvfz mariadb-connector-odbc-${MARIADB_CONNECTOR_ODBC}-src.tar.gz
-rm -f mariadb-connector-odbc-${MARIADB_CONNECTOR_ODBC}-src.tar.gz
-cd mariadb-connector-odbc-*
-
+apt-get install -y git cmake make gcc libssl-dev unixodbc-dev
+git clone https://github.com/MariaDB/mariadb-connector-odbc.git
+mkdir build && cd build
+cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL
+cmake --build . --config RelWithDebInfo
+make install
 
 #If the MariaDB server works in 'STRICT_TRANS_TABLES' mode you need to change mode in /etc/mysql/my.conf
 sed -i 's/sql_mode=NO_ENGINE_SUBSTITUTION, STRICT_TRANS_TABLES/sql_mode=NO_ENGINE_SUBSTITUTION/' /etc/mysql/my.conf
@@ -72,7 +72,7 @@ sed -i 's/sql_mode=NO_ENGINE_SUBSTITUTION, STRICT_TRANS_TABLES/sql_mode=NO_ENGIN
 
 #Download and compile and install DAHDI.
 cd /usr/src
-wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
+wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-ccc
 tar xvfz dahdi-linux-complete-current.tar.gz
 rm -f dahdi-linux-complete-current.tar.gz
 cd dahdi-linux-complete-*

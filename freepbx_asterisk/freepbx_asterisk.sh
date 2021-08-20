@@ -12,6 +12,8 @@ export PHP_VERSION="7.4"
 export NODEJS_VERSION="16.x"
 export MARIADB_CONNECTOR_ODBC="3.1.13"
 
+DEBIAN_FRONTEND=noninteractive
+
 #------------------------------
 
 #Update Your System
@@ -52,31 +54,51 @@ apt-get install -y nodejs
 #dpkg -i libssl1.0.2_1.0.2u-1_deb9u4_amd64.deb
 #rm -f libssl1.0.2_1.0.2u-1_deb9u4_amd64.deb
 
+#or
+
 apt-get install -y libssl1.1
 
 #wget https://wiki.freepbx.org/download/attachments/122487323/mariadb-connector-odbc_3.0.7-1_amd64.deb
 #dpkg -i mariadb-connector-odbc_3.0.7-1_amd64.deb
 #rm -f mariadb-connector-odbc_3.0.7-1_amd64.deb
 
+#or
+
 apt-get install -y git cmake make gcc libssl-dev unixodbc-dev
-git clone https://github.com/MariaDB/mariadb-connector-odbc.git
-mkdir build && cd build
-cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL
-cmake --build . --config RelWithDebInfo
-make install
+#git clone https://github.com/MariaDB/mariadb-connector-odbc.git
+#mkdir build && cd build
+#cmake ../mariadb-connector-odbc/ -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCONC_WITH_UNIT_TESTS=Off -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_SSL=OPENSSL
+#cmake --build . --config RelWithDebInfo
+#make install
+
+#or
+
+cd /usr/src/
+mkdir odbc_package && cd odbc_package
+wget https://downloads.mariadb.com/Connectors/odbc/connector-odbc-3.1.7/mariadb-connector-odbc-3.1.7-ga-debian-x86_64.tar.gz
+tar -xvzf mariadb-connector-odbc-3.1.7-ga-debian-x86_64.tar.gz
+install lib/libmaodbc.so /usr/lib/
+install -d /usr/lib/mariadb/
+install -d /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/auth_gssapi_client.so /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/caching_sha2_password.so /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/client_ed25519.so /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/dialog.so /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/mysql_clear_password.so /usr/lib/mariadb/plugin/
+install lib/mariadb/plugin/sha256_password.so /usr/lib/mariadb/plugin/
 
 #If the MariaDB server works in 'STRICT_TRANS_TABLES' mode you need to change mode in /etc/mysql/my.conf
-sed -i 's/sql_mode=NO_ENGINE_SUBSTITUTION, STRICT_TRANS_TABLES/sql_mode=NO_ENGINE_SUBSTITUTION/' /etc/mysql/my.conf
+sed -i 's/sql_mode=NO_ENGINE_SUBSTITUTION, STRICT_TRANS_TABLES/sql_mode=NO_ENGINE_SUBSTITUTION/' /etc/mysql/my.cnf
 
 #--- Install and Configure Asterisk ---
 
 #Download and compile and install DAHDI.
 cd /usr/src
-wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-ccc
+wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
 tar xvfz dahdi-linux-complete-current.tar.gz
 rm -f dahdi-linux-complete-current.tar.gz
 cd dahdi-linux-complete-*
-make all
+make 
 make install
 make install-config
 
@@ -96,7 +118,7 @@ tar xvfz asterisk-${ASTERISK_VERSION}.tar.gz
 rm -f asterisk-${ASTERISK_VERSION}.tar.gz
 cd asterisk-*
 contrib/scripts/get_mp3_source.sh
-contrib/scripts/install_prereq install
+contrib/scripts/install_prereq install # !!!! STOPED
 ./configure --with-pjproject-bundled --with-jansson-bundled
 make menuselect.makeopts
 menuselect/menuselect --enable app_macro --enable format_mp3 menuselect.makeopts
@@ -168,7 +190,3 @@ fwconsole ma installall
 fwconsole ma delete firewall
 fwconsole reload
 fwconsole restart
-
-
-
-

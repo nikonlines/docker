@@ -1,3 +1,5 @@
+# Perl (fcgiwrap) for NGINX
+
 Создаем docker-образ "nginx-fcgiwrap" с Dockerfile
 
 > sudo docker build . --no-cache --compress --tag nginx-fcgiwrap

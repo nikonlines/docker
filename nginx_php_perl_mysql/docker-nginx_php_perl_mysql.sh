@@ -33,6 +33,7 @@ sudo docker run -d -i -t --restart always \
 --volume nginx_www:/usr/share/nginx \
 --volume nginx_log:/var/log/nginx \
 --volume fcgiwrap_lib:/usr/lib/cgi-bin \
+--volume nginx_certs:/etc/letsencrypt \
 -p 80:80 -p 443:443 \
 --link php-fpm \
 --link nginx-fcgiwrap \

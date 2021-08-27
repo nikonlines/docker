@@ -45,7 +45,6 @@ nginx
 #Default dir: /usr/share/nginx/html \
 location ~ \.php$ { \
   root   /usr/share/nginx/html; \
-
   fastcgi_split_path_info ^(.+\.php)(/.+)$; \
   fastcgi_pass php-fpm:9000; \
   fastcgi_index index.php; \

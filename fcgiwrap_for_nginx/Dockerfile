@@ -4,7 +4,7 @@ ENV FCGI_PORT="9090"
 ENV FCGI_ROOT="/usr/lib/cgi-bin"
 
 RUN apt-get update \
-    && apt-get install -y fcgiwrap perl libdbd-mysql-perl libwww-perl libcgi-session-perl \
+    && apt-get install -y fcgiwrap perl libdbd-mysql-perl libwww-perl libcgi-session-perl libdatetime-perl \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 CMD fcgiwrap -s tcp:0.0.0.0:${FCGI_PORT}

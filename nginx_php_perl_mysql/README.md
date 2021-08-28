@@ -70,7 +70,7 @@ location ~ /\\.ht { \
   deny all; \
 }
 
-# serve static files directly
+# Images static files directly
 location ~* \\.(jpg|jpeg|gif|css|png|js|ico|html)$ { \
   access_log off; \
   expires max; \

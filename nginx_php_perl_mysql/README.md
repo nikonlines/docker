@@ -43,13 +43,13 @@ nginx
 
 # Config for PHP-FPM
 #Default dir: /usr/share/nginx/html \
-location ~* \.php$ { \
+location ~* \\.php$ { \
   root   /usr/share/nginx/html; \
   fastcgi_pass php-fpm:9000; \
   fastcgi_index index.php; \
   try_files $uri $uri/ =404; \
   include fastcgi_params; \
-  fastcgi_split_path_info ^(.+\.php)(/.+)$; \
+  fastcgi_split_path_info ^(.+\\.php)(/.+)$; \
   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
   fastcgi_param PATH_INFO $fastcgi_path_info; \
 } 
@@ -66,12 +66,12 @@ location /cgi-bin/ { \
 }
 
 # Config for .htaccess
-location ~ /\.ht { \
+location ~ /\\.ht { \
   deny all; \
 }
 
 # serve static files directly
-location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ { \
+location ~* \\.(jpg|jpeg|gif|css|png|js|ico|html)$ { \
   access_log off; \
   expires max; \
   log_not_found off; \

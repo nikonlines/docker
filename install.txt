@@ -1,0 +1,26 @@
+#Default package
+
+apt update
+
+apt-get install -y nano certbot python3-certbot-nginx 
+
+apt-get install -y sudo ssh vim nano mc git wget net-tools iputils-ping procps
+
+***********************************
+
+# Container Adminer (for DB)
+sudo docker run -d -i -t --restart always \
+-p 8080:8080 \
+--hostname adminer \
+--name adminer \
+adminer
+
+
+# Container Filebrowser
+sudo docker run -d -i -t --restart always \
+--volume filebrowser_data:/data \
+--volume filebrowser_srv:/srv \
+-p 8888:80 \
+--hostname filebrowser \
+--name filebrowser \
+filebrowser

@@ -18,6 +18,7 @@ fi
 
 service ssh restart
 service apache2 restart
+yate -s &
 
 #----------------------
 

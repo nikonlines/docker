@@ -1,11 +1,11 @@
 # Add to mikrotik
 
-/system logging action add name="rsyslog" target=remote remote=<IPaddr_server_rsyslog> remote-port=1514 bsd-syslog=yes syslog-facility=daemon; \
+/system logging action add name="rsyslog" target=remote remote=<IPaddr_server_rsyslog> remote-port=1514 bsd-syslog=yes syslog-facility=daemon;
 
 /system logging add topics=info action=rsyslog; \
 /system logging add topics=error action=rsyslog; \
 /system logging add topics=warning action=rsyslog; \
-/system logging add topics=critical action=rsyslog; \
+/system logging add topics=critical action=rsyslog;
 
 # -----------------------------
 

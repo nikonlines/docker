@@ -52,23 +52,22 @@ fi
 
 docker stop $CONTAINER_NAME
 docker rm $CONTAINER_NAME
+#docker rmi portainer/portainer-ce
 
 docker pull portainer/portainer-ce
 
 case "$CERT_MODE" in
- "letsencrypt" ) docker run -d -p 9000:9000 --name $CONTAINER_NAME --restart always \
+ "letsencrypt" ) docker run -d -p 9443:9443 --name $CONTAINER_NAME --restart always \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v "letsencrypt_data:"${LETSENCRYPT_CERT_DIR} \
                             -v portainer_data:/data portainer/portainer-ce \
-                            --ssl \
                             --sslcert ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_NAME} \
                             --sslkey ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_KEY}
  ;;
- "default"     ) docker run -d -p 9000:9000 --name $CONTAINER_NAME --restart always \
+ "default"     ) docker run -d -p 9443:9443 --name $CONTAINER_NAME --restart always \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v ${DEFAULT_CERT_DIR}:/certs \
                             -v portainer_data:/data portainer/portainer-ce \
-                            --ssl \
                             --sslcert /certs/${DEFAULT_CERT_NAME} \
                             --sslkey /certs/${DEFAULT_CERT_KEY}
  ;;

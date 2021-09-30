@@ -3,12 +3,16 @@
 #Container name (Default: 'portainer') 
 CONTAINER_NAME="portainer_ssl"
 
+#Default port
+CONTAINER_PORT=9000
+CONTAINER_SSL_PORT=9443
+
 #Selected cert mode ('letsencrypt' or 'default' or 'no')
 CERT_MODE="default"
 #CERT_MODE="letsencrypt"
 
 #Edit cert name if selected CERT_MODE='letsencrypt'
-CERT_NAME="<site_name>"
+CERT_NAME="portainer.local"
 
 #Update cert for Default
 CERT_UPDATE=true         #True or False
@@ -57,23 +61,32 @@ docker rm $CONTAINER_NAME
 docker pull portainer/portainer-ce
 
 case "$CERT_MODE" in
- "letsencrypt" ) docker run -d -p 9443:9443 --name $CONTAINER_NAME --restart always \
+ "letsencrypt" ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \ 
+                            -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
                             -v /var/run/docker.sock:/var/run/docker.sock \
-                            -v "letsencrypt_data:"${LETSENCRYPT_CERT_DIR} \
-                            -v portainer_data:/data portainer/portainer-ce \
+                            -v portainer_data:/data \
+                            -v letsencrypt_data:${LETSENCRYPT_CERT_DIR} \ 
+                            portainer/portainer-ce \
                             --sslcert ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_NAME} \
                             --sslkey ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_KEY}
  ;;
- "default"     ) docker run -d -p 9443:9443 --name $CONTAINER_NAME --restart always \
+ "default"     ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \ 
+                            -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
                             -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v portainer_data:/data \
                             -v ${DEFAULT_CERT_DIR}:/certs \
-                            -v portainer_data:/data portainer/portainer-ce \
+                            portainer/portainer-ce \
                             --sslcert /certs/${DEFAULT_CERT_NAME} \
                             --sslkey /certs/${DEFAULT_CERT_KEY}
  ;;
- *             ) docker run -d -p 9000:9000 --name $CONTAINER_NAME --restart always \
+ *             ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
+                            -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
                             -v /var/run/docker.sock:/var/run/docker.sock \
-                            -v portainer_data:/data portainer/portainer-ce
+                            -v portainer_data:/data \
+                            portainer/portainer-ce
  ;;
 esac
 

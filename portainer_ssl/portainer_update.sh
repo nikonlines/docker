@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Container name (Default: 'portainer') 
+#Container name (Default: 'portainer')
 CONTAINER_NAME="portainer_ssl"
 
 #Default port
@@ -62,17 +62,17 @@ docker pull portainer/portainer-ce
 
 case "$CERT_MODE" in
  "letsencrypt" ) docker run -d  --name $CONTAINER_NAME --restart always \
-                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \ 
+                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
                             -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v portainer_data:/data \
-                            -v letsencrypt_data:${LETSENCRYPT_CERT_DIR} \ 
+                            -v letsencrypt_data:${LETSENCRYPT_CERT_DIR} \
                             portainer/portainer-ce \
                             --sslcert ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_NAME} \
                             --sslkey ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_KEY}
  ;;
  "default"     ) docker run -d  --name $CONTAINER_NAME --restart always \
-                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \ 
+                            -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
                             -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v portainer_data:/data \

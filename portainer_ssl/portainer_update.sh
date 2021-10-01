@@ -6,6 +6,7 @@ CONTAINER_NAME="portainer_ssl"
 #Default port
 CONTAINER_PORT=9000
 CONTAINER_SSL_PORT=9443
+CONTAINER_NETWORK="bridge"
 
 #Selected cert mode ('letsencrypt' or 'default' or 'no')
 CERT_MODE="default"
@@ -62,8 +63,10 @@ docker pull portainer/portainer-ce
 
 case "$CERT_MODE" in
  "letsencrypt" ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -h $CONTAINER_NAME \
                             -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
                             -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
+                            --network $CONTAINER_NETWORK \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v portainer_data:/data \
                             -v letsencrypt_data:${LETSENCRYPT_CERT_DIR} \
@@ -72,8 +75,10 @@ case "$CERT_MODE" in
                             --sslkey ${LETSENCRYPT_CERT_DIR}/live/${CERT_NAME}/${LETSENCRYPT_CERT_KEY}
  ;;
  "default"     ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -h $CONTAINER_NAME \
                             -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
                             -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
+                            --network $CONTAINER_NETWORK \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v portainer_data:/data \
                             -v ${DEFAULT_CERT_DIR}:/certs \
@@ -82,8 +87,10 @@ case "$CERT_MODE" in
                             --sslkey /certs/${DEFAULT_CERT_KEY}
  ;;
  *             ) docker run -d  --name $CONTAINER_NAME --restart always \
+                            -h $CONTAINER_NAME \
                             -p ${CONTAINER_PORT}:${CONTAINER_PORT} \
                             -p ${CONTAINER_SSL_PORT}:${CONTAINER_SSL_PORT} \
+                            --network $CONTAINER_NETWORK \
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v portainer_data:/data \
                             portainer/portainer-ce

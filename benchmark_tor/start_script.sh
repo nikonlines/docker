@@ -15,6 +15,7 @@
 
 #TOR_ENTRYNODES=""
 #TOR_EXITNODES=""
+#TOR_STRICTNODES=1
 
 ### Proxyserver and port number to use
 PROXY_IP=localhost              ### IP localhost
@@ -35,6 +36,7 @@ function show_arguments() {
   echo "User-Agent: $USER_AGENT"
   echo "TOR EntryNodes: $TOR_ENTRYNODES"
   echo "TOR ExitNodes: $TOR_EXITNODES"
+  echo "TOR StrictNodes: $TOR_STRICTNODES"
   echo "Proxy IP: $PROXY_IP"
   echo "Proxy Port: $PROXY_PORT"
 
@@ -47,13 +49,13 @@ function tor_set_config() {
   echo "--- Set TOR config ---"
 
   if [ -n "$TOR_ENTRYNODES" ]; then
-    echo "Set TOR 'EntryNodes': $TOR_ENTRYNODES"
-    echo "EntryNodes $TOR_ENTRYNODES" >> /etc/tor/torrc
+    echo "Set TOR 'EntryNodes': $TOR_ENTRYNODES StrictNodes $TOR_STRICTNODES"
+    echo "EntryNodes $TOR_ENTRYNODES StrictNodes $TOR_STRICTNODES" >> /etc/tor/torrc
   fi
 
   if [ -n "$TOR_EXITNODES" ]; then
-    echo "Set TOR 'ExitNodes': $TOR_EXITNODES"
-    echo "ExitNodes $TOR_EXITNODES" >> /etc/tor/torrc
+    echo "Set TOR 'ExitNodes': $TOR_EXITNODES StrictNodes $TOR_STRICTNODES"
+    echo "ExitNodes $TOR_EXITNODES StrictNodes $TOR_STRICTNODES" >> /etc/tor/torrc
   fi
 
   ### Used tor from proxy (socks5)
